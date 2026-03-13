@@ -53,7 +53,7 @@ class Zippy_Core
     $phpmailer->Host = 'smtp.gmail.com';
     $phpmailer->Port = 587;
     $phpmailer->Username = 'dev@zippy.sg';
-    $phpmailer->Password = 'obmndywxkcywmean';
+    $phpmailer->Password = 'cqoyfqhbywzguowa';
     $phpmailer->SMTPAuth = true;
     $phpmailer->SMTPSecure = 'tls';
     $phpmailer->IsSMTP();
