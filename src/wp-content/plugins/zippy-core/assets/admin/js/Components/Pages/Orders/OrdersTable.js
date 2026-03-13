@@ -22,6 +22,7 @@ import FilterOrder from "./FilterOrder";
 import { useOrderProvider } from "../../../context/OrderContext";
 import DateCreatedCell from "./DateCreatedCell";
 import ExportButton from "./ExportButton";
+import SummaryOrders from "./SummaryOrders";
 
 const OrdersTable = ({ orders, orderBy, orderDirection, handleSort }) => {
   const [selectedOrders, setSelectedOrders] = useState([]);
@@ -63,7 +64,7 @@ const OrdersTable = ({ orders, orderBy, orderDirection, handleSort }) => {
     setSelectedOrders((prev) =>
       prev.includes(String(orderId))
         ? prev.filter((x) => x !== String(orderId))
-        : [...prev, String(orderId)]
+        : [...prev, String(orderId)],
     );
   };
 
@@ -125,6 +126,9 @@ const OrdersTable = ({ orders, orderBy, orderDirection, handleSort }) => {
           Add Order
         </Button>
       </Box>
+
+      <SummaryOrders />
+
       <Box
         sx={{
           display: "flex",
@@ -164,7 +168,7 @@ const OrdersTable = ({ orders, orderBy, orderDirection, handleSort }) => {
                 { id: "order_number", label: "Order #" },
                 { id: "phone_number", label: "Phone Number" },
                 { id: "status", label: "Status" },
-                { id: "total", label: "Total (VND)" },
+                { id: "total", label: "Total" },
                 { id: "payment_method", label: "Payment Method" },
                 { id: "shipping_info", label: "Shipping Info" },
                 { id: "date_created", label: "Date Created" },
@@ -221,7 +225,23 @@ const OrdersTable = ({ orders, orderBy, orderDirection, handleSort }) => {
                 </TableCell>
 
                 <TableCell>
-                  {parseInt(order.total).toLocaleString()} {order.currency}
+                  {order.status === "refunded" ? (
+                    <>
+                      <span
+                        style={{
+                          textDecoration: "line-through",
+                          marginRight: 6,
+                        }}
+                      >
+                        {parseInt(order.total).toLocaleString()}
+                      </span>
+                      0 {order.currency}
+                    </>
+                  ) : (
+                    <>
+                      {parseInt(order.total).toLocaleString()} {order.currency}
+                    </>
+                  )}
                 </TableCell>
 
                 <TableCell>{order.payment_method?.title || "N/A"}</TableCell>
@@ -244,7 +264,7 @@ const OrdersTable = ({ orders, orderBy, orderDirection, handleSort }) => {
         onPageChange={handleChangePage}
         rowsPerPage={rowsPerPage}
         onRowsPerPageChange={handleChangeRowsPerPage}
-        rowsPerPageOptions={[5, 10, 20]}
+        rowsPerPageOptions={[5, 10, 20, 50, 100, 200]}
       />
     </Paper>
   );

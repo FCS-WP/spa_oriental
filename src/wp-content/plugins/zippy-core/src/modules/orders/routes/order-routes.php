@@ -104,5 +104,23 @@ class Order_Route extends Core_Route
             // 'permission_callback' => [Core_Middleware::class, 'admin_only'],
             'args' => Order_Arguments::send_order_email_args(),
         ]);
+        register_rest_route(ZIPPY_CORE_API_PREFIX, '/summary-orders', [
+            'methods'  => 'GET',
+            'callback' => [Order_Controllers::class, 'get_summary_orders'],
+            'permission_callback' => [Core_Middleware::class, 'admin_only'],
+            'args' => Order_Arguments::get_summary_orders_args(),
+        ]);
+        register_rest_route(ZIPPY_CORE_API_PREFIX, '/search-customers', [
+            'methods'  => 'GET',
+            'callback' => [Order_Controllers::class, 'search_customers'],
+            'permission_callback' => [Core_Middleware::class, 'admin_only'],
+            'args' => Order_Arguments::get_search_customers_args(),
+        ]);
+        register_rest_route(ZIPPY_CORE_API_PREFIX, '/refund-order', [
+            'methods'  => 'POST',
+            'callback' => [Order_Controllers::class, 'refund_order'],
+            'permission_callback' => [Core_Middleware::class, 'admin_only'],
+            'args' => Order_Arguments::get_refund_order_args(),
+        ]);
     }
 }
